@@ -43,5 +43,9 @@ public class UserDto {
     private Long deptId;
     private String status;
     private String avatar;
+    private String department;
+    private String place1;
+    private String place2;
+    private String place3;
 
 }

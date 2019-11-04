@@ -15,16 +15,26 @@
  */
 package cn.stylefeng.guns.modular.system.controller;
 
+
 import cn.stylefeng.guns.core.common.node.MenuNode;
 import cn.stylefeng.guns.core.log.LogManager;
 import cn.stylefeng.guns.core.log.factory.LogTaskFactory;
 import cn.stylefeng.guns.core.shiro.ShiroKit;
 import cn.stylefeng.guns.core.shiro.ShiroUser;
+import cn.stylefeng.guns.core.util.LdapUtil;
+import cn.stylefeng.guns.modular.system.entity.Importance;
+import cn.stylefeng.guns.modular.system.entity.User;
+import cn.stylefeng.guns.modular.system.model.UserDto;
+import cn.stylefeng.guns.modular.system.service.ImportanceService;
 import cn.stylefeng.guns.modular.system.service.UserService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +55,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ImportanceService importanceService;
 
     /**
      * 跳转到主页
@@ -85,40 +98,86 @@ public class LoginController extends BaseController {
             return "/login.html";
         }
     }
-
     /**
      * 点击登录执行的动作
      *
      * @author fengshuonan
      * @Date 2018/12/23 5:42 PM
      */
+
+
+    LdapUtil util = new LdapUtil();
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginVali() {
-
         String username = super.getPara("username").trim();
         String password = super.getPara("password").trim();
         String remember = super.getPara("remember");
+        String record = null;
 
-        Subject currentUser = ShiroKit.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password.toCharArray());
-
-        //如果开启了记住我功能
-        if ("on".equals(remember)) {
-            token.setRememberMe(true);
-        } else {
-            token.setRememberMe(false);
+        if (util.link(username,password, importanceService.findimporById(1),"hzdomain1")!=null&&record==null){
+                token_admin(username,password,remember,1,"hzdomain1");
+                record = "record";
+        }else if(util.link(username,password, importanceService.findimporById(2),"hzdomain2")!=null&&record==null){
+                token_admin(username,password,remember,2,"hzdomain2");
+                record = "record";
+        }else if(util.link(username,password, importanceService.findimporById(3),"TRGroup")!=null&&record==null){
+                token_admin(username, password, remember, 3, "TRGroup");
+                record = "record";
+        }else if(record==null){
+            Subject currentUser3 = ShiroKit.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            currentUser3.login(token);
+            //登录成功，记录登录日志
+            ShiroUser shiroUser1 = ShiroKit.getUserNotNull();
+            LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser1.getId(), getIp()));
+            ShiroKit.getSession().setAttribute("sessionFlag", true);
         }
 
-        //执行shiro登录操作
-        currentUser.login(token);
-
-        //登录成功，记录登录日志
-        ShiroUser shiroUser = ShiroKit.getUserNotNull();
-        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), getIp()));
-
-        ShiroKit.getSession().setAttribute("sessionFlag", true);
-
         return REDIRECT + "/";
+    }
+
+    public  void token_admin(String username,String password,String remember,long id, String domain) {
+
+        UserDto userDto = util.link(username, password, importanceService.findimporById(id), domain);
+        Subject currentUser = ShiroKit.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken("admin", "tairan@2019");
+        currentUser.login(token);
+        if (userService.getByAccount(username) != null) {
+
+            ShiroKit.getSubject().logout();
+            deleteAllCookie();
+
+            Subject currentUser1 = ShiroKit.getSubject();
+            UsernamePasswordToken token1 = new UsernamePasswordToken(username, password.toCharArray());
+            //如果开启了记住我功能
+            if ("on".equals(remember)) {
+                token1.setRememberMe(true);
+            } else {
+                token1.setRememberMe(false);
+            }
+            //执行shiro登录操作
+            currentUser1.login(token1);
+
+            //登录成功，记录登录日志
+            ShiroUser shiroUser1 = ShiroKit.getUserNotNull();
+            LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser1.getId(), getIp()));
+            ShiroKit.getSession().setAttribute("sessionFlag", true);
+        }else if (userService.getByAccount(username)==null){
+            userService.addUser(userDto);
+            ShiroKit.getSubject().logout();
+            deleteAllCookie();
+
+            Subject currentUser1 = ShiroKit.getSubject();
+            UsernamePasswordToken token2 = new UsernamePasswordToken(username, password.toCharArray());
+
+            //执行shiro登录操作
+            currentUser1.login(token2);
+
+            //登录成功，记录登录日志
+            ShiroUser shiroUser2 = ShiroKit.getUserNotNull();
+            LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser2.getId(), getIp()));
+            ShiroKit.getSession().setAttribute("sessionFlag", true);
+        }
     }
 
     /**

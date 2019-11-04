@@ -41,6 +41,9 @@ public class ShiroUser implements Serializable {
      */
     private String account;
 
+
+    private String birthday;
+
     /**
      * 姓名
      */
@@ -75,5 +78,22 @@ public class ShiroUser implements Serializable {
      * 角色名称集
      */
     private List<String> roleNames;
+
+    /**
+     * 位置
+     */
+    private String place1;
+    private String place2;
+    private String place3;
+
+    /**
+     * 部门
+     */
+    private String department;
+    /**
+     * 手机号
+     */
+    private String phone;
+
 
 }

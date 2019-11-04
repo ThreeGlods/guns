@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.system.mapper.ImportanceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.system.entity.Importance">
+        <id column="imp_id" property="id" />
+        <result column="ip" property="ip" />
+        <result column="suffix" property="suffix" />
+        <result column="port" property="port" />
+        <result column="interfaces" property="interfaces" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        imp_id AS "id", ip AS "ip", suffix AS "suffix", port AS "port", interfaces AS "interfaces"
+    </sql>
+    <select id="findimporById" resultType="cn.stylefeng.guns.modular.system.entity.Importance">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_importance where imp_id = #{id}
+    </select>
+</mapper>

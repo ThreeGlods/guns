@@ -43,7 +43,8 @@ public class UserFactory {
             return null;
         } else {
             User user = new User();
-            BeanUtils.copyProperties(userDto, user);
+            userDto.getName();
+            BeanUtils.copyProperties(userDto,user);
             user.setCreateTime(new Date());
             user.setStatus(ManagerStatus.OK.getCode());
             user.setPassword(md5Password);
@@ -79,6 +80,18 @@ public class UserFactory {
             }
             if (ToolUtil.isNotEmpty(newUser.getPhone())) {
                 oldUser.setPhone(newUser.getPhone());
+            }
+            if (ToolUtil.isNotEmpty(newUser.getDepartment())) {
+                oldUser.setDepartment(newUser.getDepartment());
+            }
+            if (ToolUtil.isNotEmpty(newUser.getPlace1())) {
+                oldUser.setPlace1(newUser.getPlace1());
+            }
+            if (ToolUtil.isNotEmpty(newUser.getPlace2())) {
+                oldUser.setPlace2(newUser.getPlace2());
+            }
+            if (ToolUtil.isNotEmpty(newUser.getPlace3())) {
+                oldUser.setPlace3(newUser.getPlace3());
             }
             return oldUser;
         }

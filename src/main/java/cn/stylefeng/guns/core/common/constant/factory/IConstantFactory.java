@@ -59,6 +59,8 @@ public interface IConstantFactory {
      */
     String getSingleRoleTip(Long roleId);
 
+
+
     /**
      * 获取部门名称
      */

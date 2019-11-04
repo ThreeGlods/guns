@@ -25,10 +25,12 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.log.LogObjectHolder;
 import cn.stylefeng.guns.core.shiro.ShiroKit;
 import cn.stylefeng.guns.core.shiro.ShiroUser;
+import cn.stylefeng.guns.modular.system.entity.Demand;
 import cn.stylefeng.guns.modular.system.entity.FileInfo;
 import cn.stylefeng.guns.modular.system.entity.Notice;
 import cn.stylefeng.guns.modular.system.entity.User;
 import cn.stylefeng.guns.modular.system.factory.UserFactory;
+import cn.stylefeng.guns.modular.system.service.DemandService;
 import cn.stylefeng.guns.modular.system.service.FileInfoService;
 import cn.stylefeng.guns.modular.system.service.NoticeService;
 import cn.stylefeng.guns.modular.system.service.UserService;
@@ -74,6 +76,9 @@ public class SystemController extends BaseController {
     private FileInfoService fileInfoService;
 
     @Autowired
+    private DemandService demandService;
+
+    @Autowired
     private NoticeService noticeService;
 
     @Autowired
@@ -85,9 +90,9 @@ public class SystemController extends BaseController {
      * @author fengshuonan
      * @Date 2018/12/24 22:43
      */
-    @RequestMapping("/console")
-    public String console() {
-        return "/modular/frame/console.html";
+    @RequestMapping("/demand")
+    public String demand() {
+        return "/modular/system/demand/demand.html";
     }
 
     /**
@@ -98,6 +103,29 @@ public class SystemController extends BaseController {
      */
     @RequestMapping("/console2")
     public String console2() {
+
+        List<Demand> demands = demandService.list();
+
+        long a = demands.size();            //工单个数
+        long b = 0;
+        long c = 0;
+        long d = 0;
+        for (int i = 0;i<a;i++){
+            if (demands.get(i).getState().equals("已完成")){
+                b+=1;
+            }else if (demands.get(i).getState().equals("处理中")){
+                c+=1;
+            }else if (demands.get(i).getState().equals("待处理")){
+                d+=1;
+            }
+        }
+
+        super.setAttr("demandList",demands);
+        super.setAttr("count",a);
+        super.setAttr("complete",b);
+        super.setAttr("deal",c);
+        super.setAttr("wait",d);
+
         return "/modular/frame/console2.html";
     }
 
@@ -168,7 +196,6 @@ public class SystemController extends BaseController {
     public String userInfo(Model model) {
         Long userId = ShiroKit.getUserNotNull().getId();
         User user = this.userService.getById(userId);
-
         model.addAllAttributes(BeanUtil.beanToMap(user));
         model.addAttribute("roleName", ConstantFactory.me().getRoleName(user.getRoleId()));
         model.addAttribute("deptName", ConstantFactory.me().getDeptName(user.getDeptId()));

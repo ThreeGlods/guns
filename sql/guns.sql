@@ -414,7 +414,7 @@ CREATE TABLE `sys_role`  (
   `create_user` bigint(20) DEFAULT NULL COMMENT '创建用户',
   `update_user` bigint(20) DEFAULT NULL COMMENT '修改用户',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '角色表' ROW_FORMAT = Dynamic;
+    ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role

@@ -56,6 +56,8 @@ public class ConstantFactory implements IConstantFactory {
         return SpringContextHolder.getBean("constantFactory");
     }
 
+
+
     @Override
     public String getUserNameById(Long userId) {
         User user = userMapper.selectById(userId);
@@ -75,6 +77,7 @@ public class ConstantFactory implements IConstantFactory {
             return "--";
         }
     }
+
 
     @Override
     @Cacheable(value = Cache.CONSTANT, key = "'" + CacheKey.ROLES_NAME + "'+#roleIds")
@@ -118,6 +121,8 @@ public class ConstantFactory implements IConstantFactory {
         }
         return "";
     }
+
+
 
     @Override
     @Cacheable(value = Cache.CONSTANT, key = "'" + CacheKey.DEPT_NAME + "'+#deptId")

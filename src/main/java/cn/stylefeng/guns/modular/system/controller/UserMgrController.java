@@ -287,7 +287,7 @@ public class UserMgrController extends BaseController {
         this.userService.assertAuth(userId);
         User user = this.userService.getById(userId);
         user.setSalt(ShiroKit.getRandomSalt(5));
-        user.setPassword(ShiroKit.md5(Const.DEFAULT_PWD, user.getSalt()));
+        user.setPassword(ShiroKit.md5("Hz123456", user.getSalt()));
         this.userService.updateById(user);
         return SUCCESS_TIP;
     }

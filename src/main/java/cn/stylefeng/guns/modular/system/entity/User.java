@@ -84,6 +84,31 @@ public class User implements Serializable {
     @TableField("role_id")
     private String roleId;
 
+
+    /**
+     * 部门
+     */
+    @TableField("department")
+    private String department;
+
+    /**
+     * 地点
+     */
+    @TableField("place1")
+    private String place1;
+
+    /**
+     * 地点
+     */
+    @TableField("place2")
+    private String place2;
+
+    /**
+     * 地点
+     */
+    @TableField("place3")
+    private String place3;
+
     /**
      * 部门id(多个逗号隔开)
      */
@@ -126,7 +151,6 @@ public class User implements Serializable {
     @TableField("version")
     private Integer version;
 
-
     public Long getUserId() {
         return userId;
     }
@@ -142,6 +166,7 @@ public class User implements Serializable {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
 
     public String getAccount() {
         return account;
@@ -215,6 +240,14 @@ public class User implements Serializable {
         this.roleId = roleId;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public Long getDeptId() {
         return deptId;
     }
@@ -271,27 +304,55 @@ public class User implements Serializable {
         this.version = version;
     }
 
+    public String getPlace1() {
+        return place1;
+    }
+
+    public void setPlace1(String place1) {
+        this.place1 = place1;
+    }
+
+    public String getPlace2() {
+        return place2;
+    }
+
+    public void setPlace2(String place2) {
+        this.place2 = place2;
+    }
+
+    public String getPlace3() {
+        return place3;
+    }
+
+    public void setPlace3(String place3) {
+        this.place3 = place3;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-        "userId=" + userId +
-        ", avatar=" + avatar +
-        ", account=" + account +
-        ", password=" + password +
-        ", salt=" + salt +
-        ", name=" + name +
-        ", birthday=" + birthday +
-        ", sex=" + sex +
-        ", email=" + email +
-        ", phone=" + phone +
-        ", roleId=" + roleId +
-        ", deptId=" + deptId +
-        ", status=" + status +
-        ", createTime=" + createTime +
-        ", createUser=" + createUser +
-        ", updateTime=" + updateTime +
-        ", updateUser=" + updateUser +
-        ", version=" + version +
-        "}";
+                "userId=" + userId +
+                ", avatar='" + avatar + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", sex='" + sex + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", department='" + department + '\'' +
+                ", place1='" + place1 + '\'' +
+                ", place2='" + place2 + '\'' +
+                ", place3='" + place3 + '\'' +
+                ", deptId=" + deptId +
+                ", status='" + status + '\'' +
+                ", createTime=" + createTime +
+                ", createUser=" + createUser +
+                ", updateTime=" + updateTime +
+                ", updateUser=" + updateUser +
+                ", version=" + version +
+                '}';
     }
 }

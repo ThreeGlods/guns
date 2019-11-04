@@ -312,6 +312,11 @@ public class ShiroKit {
         shiroUser.setName(user.getName());
         shiroUser.setEmail(user.getEmail());
         shiroUser.setAvatar(user.getAvatar());
+        shiroUser.setPlace1(user.getPlace1());
+        shiroUser.setPlace2(user.getPlace2());
+        shiroUser.setPlace3(user.getPlace3());
+        shiroUser.setPhone(user.getPhone());
+        shiroUser.setDepartment(user.getDepartment());
 
         return shiroUser;
     }

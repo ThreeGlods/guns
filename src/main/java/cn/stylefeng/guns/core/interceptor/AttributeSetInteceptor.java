@@ -18,6 +18,7 @@ package cn.stylefeng.guns.core.interceptor;
 import cn.stylefeng.guns.core.shiro.ShiroKit;
 import cn.stylefeng.guns.core.shiro.ShiroUser;
 import cn.stylefeng.guns.core.util.DefaultImages;
+import cn.stylefeng.guns.modular.system.entity.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -52,9 +53,14 @@ public class AttributeSetInteceptor extends HandlerInterceptorAdapter {
         if (user == null) {
             throw new AuthenticationException("当前没有登录账号！");
         } else {
+
+            String place = user.getPlace1()+'-'+user.getPlace2()+'-'+user.getPlace3();
             modelAndView.addObject("name", user.getName());
             modelAndView.addObject("avatar", DefaultImages.defaultAvatarUrl());
             modelAndView.addObject("email", user.getEmail());
+            modelAndView.addObject("deptName", user.getDeptName());
+            modelAndView.addObject("phone", user.getPhone());
+            modelAndView.addObject("department", user.getDepartment());
         }
     }
 }

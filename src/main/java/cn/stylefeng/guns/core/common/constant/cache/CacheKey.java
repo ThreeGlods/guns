@@ -33,6 +33,24 @@ public interface CacheKey {
      */
     String SINGLE_ROLE_NAME = "single_role_name_";
 
+
+    /**
+     * 角色名称(多个)
+     */
+    String DEMAND_NAME = "demands_name_";
+
+    /**
+     * 角色名称(单个)
+     */
+    String SINGLE_DEMAND_NAME = "single_demand_name_";
+
+
+    /**
+     * 角色英文名称
+     */
+    String SINGLE_DEMAND_TIP = "single_demand_tip_";
+
+
     /**
      * 角色英文名称
      */

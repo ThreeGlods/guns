@@ -40,7 +40,7 @@ layui.use(['layer', 'form', 'admin', 'laydate', 'ax'], function () {
 
     // 添加表单验证方法
     form.verify({
-        psw: [/^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'],
+        psw: [/^[\S]{6,18}$/, '密码必须6到18位，且不能出现空格'],
         repsw: function (value) {
             if (value !== $('#userForm input[name=password]').val()) {
                 return '两次密码输入不一致';

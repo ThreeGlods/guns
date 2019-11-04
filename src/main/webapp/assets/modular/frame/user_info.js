@@ -6,6 +6,8 @@ layui.use(['form', 'upload', 'element', 'ax', 'laydate'], function () {
     var $ax = layui.ax;
     var laydate = layui.laydate;
 
+
+
     //渲染时间选择框
     laydate.render({
         elem: '#birthday'
@@ -29,9 +31,11 @@ layui.use(['form', 'upload', 'element', 'ax', 'laydate'], function () {
         ajax.start();
     });
 
+
+
     upload.render({
         elem: '#imgHead',
-        url: '', // 上传接口
+        url: Feng.ctxPath+ '/system/uploadAvatar', // 上传接口
         done: function (res) {
             // 上传完毕回调
         },
@@ -40,3 +44,4 @@ layui.use(['form', 'upload', 'element', 'ax', 'laydate'], function () {
         }
     });
 });
+
